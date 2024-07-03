@@ -2,7 +2,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header bg-primary text-white">
+                <div class="card-header bg-success text-white">
                     <h5 class="card-title mb-0 text-uppercase">Change Email</h5>
                 </div>
                 <div id="changeEmailMessage" class="mt-3"></div>
@@ -14,16 +14,16 @@
                             echo $this->Form->email('new_email', ['class' => 'form-control', 'required' => true]);
                             ?>
                         </div>
-                        <div class="d-flex justify-content-between">
+                        <div class="d-flex justify-content-between mt-4">
                             <?php
-                            echo $this->Form->button('Change Email', ['type' => 'submit', 'class' => 'btn btn-primary mt-2']);
+                            echo $this->Form->button('SUBMIT', ['type' => 'submit', 'class' => 'btn btn-primary mt-2']);
                             echo $this->Form->end();
                             ?>
                             <div class="mt-3 text-center">
-                             <?php echo $this->Html->link('Back to Dashboard', ['controller' => 'users', 'action' => 'dashboard'], ['class' => 'btn btn-secondary']); ?>
+                             <?php echo $this->Html->link('Back to Dashboard', ['controller' => 'users', 'action' => 'dashboard'], ['class' => 'btn btn-danger']); ?>
                             </div>
 
-                            </div>
+                    </div>
                 </div>
             </div>
             

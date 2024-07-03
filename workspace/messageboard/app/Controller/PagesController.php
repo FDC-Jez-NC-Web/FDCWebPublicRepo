@@ -78,23 +78,6 @@ class PagesController extends AppController {
 		}
 	}
 
-	public function default_display() {
-		$this->render('welcome');
-	}
-
-
-
-	public function dashboard() {
-	}
-
-
-	public function welcome() {
-		$userId = $this->Auth->user('id');
-		debug($userId);
-	}
-
-	
-
 	
 
 }

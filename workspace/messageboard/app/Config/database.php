@@ -74,7 +74,7 @@ class DATABASE_CONFIG {
 		'password' => 'cde3bgt5',
 		'database' => 'message_board',
 		'prefix' => '',
-		// 'encoding' => 'utf8',
+		'encoding' => 'utf8',
 
 
 	);

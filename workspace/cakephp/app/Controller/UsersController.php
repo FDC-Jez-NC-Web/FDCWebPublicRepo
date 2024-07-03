@@ -3,10 +3,11 @@ class UsersController extends AppController {
     public $uses = ['User'];
 	public function beforeFilter() {
         parent::beforeFilter();
-
-        // always restrict your whitelists to a per-controller basis
         $this->Auth->allow("ajaxLogin");
     }
+
+
+  
 
     public function login() {
         if ($this->request->is('post')) {
@@ -16,15 +17,14 @@ class UsersController extends AppController {
                     'password' => $this->request->data['User']['password']
                 )
             ));
-            
+           
+
             $didLogin = $this->Auth->login($user['User']);
-            // $didLogin = $this->Auth->login();
-            
+       
             if ($didLogin) {
                 return $this->redirect($this->Auth->redirectUrl());
             }
-            
-            $this->Flash->error(__('Invalid username or password, try again'));
+            $this->Flash->error(__('Invalid username or password, please try again'));
         }
     }
 
@@ -96,9 +96,6 @@ class UsersController extends AppController {
     }
 
     public function delete($id = null) {
-        // Prior to 2.5 use
-        // $this->request->onlyAllow('post');
-
         $this->request->allowMethod('post');
 
         $this->User->id = $id;

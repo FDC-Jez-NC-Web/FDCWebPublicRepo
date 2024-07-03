@@ -1,11 +1,11 @@
-<div class="container mt-4">
-    <h2 class="mb-4 text-center"><?php echo __('Register'); ?></h2>
+<div class="w-50 card " style="margin-top: 100px; margin-left:200px; margin-right:200px; padding:20px; margin-top:150px;">
+    <h2 class="text-danger"><?php echo __('REGISTER'); ?></h2>
+    <p class="opacity-50 mb-4" style="font-size:12px;">Please input all the required fields</p>
     <div id="validation-messages"></div>
     <?php echo $this->Form->create('User', array('id' => 'registerForm', 'class' => 'needs-validation', 'novalidate' => true)); ?>
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="form-group mb-3">
-                <?php echo $this->Form->input('name', array('class' => 'form-control', 'label' => 'Name (5-20 characters)', 'required' => true)); ?>
+         <div>
+            <div class="form-group mb-3 ">
+                <?php echo $this->Form->input('name', array('class' => 'form-control ', 'label' => 'Name (5-20 characters)', 'required' => true)); ?>
             </div>
             <div class="form-group mb-3">
                 <?php echo $this->Form->input('username', array('type' => 'text', 'class' => 'form-control', 'label' => 'Username', 'required' => true)); ?>
@@ -20,10 +20,8 @@
                 <?php echo $this->Form->input('confirm_password', array('type' => 'password', 'class' => 'form-control', 'label' => 'Confirm Password', 'required' => true)); ?>
             </div>
             <div class="d-grid gap-2">
-                <button type="submit" class="btn btn-primary"><?php echo __('Register'); ?></button>
-                <a href="<?php echo $this->Html->url(array('controller' => 'users', 'action' => 'login')); ?>" class="btn btn-secondary"><?php echo __('Login'); ?></a>
+                <button type="submit" class="btn btn-success"><?php echo __('SUBMIT'); ?></button>
             </div>
         </div>
-    </div>
     <?php echo $this->Form->end(); ?>
 </div>

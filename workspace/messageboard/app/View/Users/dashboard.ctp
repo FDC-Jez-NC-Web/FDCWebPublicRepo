@@ -1,16 +1,16 @@
-<div style="margin-top: 20px;">
+<div style="margin-top: 130px;">
     <div class="message-list ">
-        <div class="card mb-3">
-            <div class="card-header bg-success text-white">
-                <h5 class="card-title mb-0 text-uppercase">Message List</h5>
+        <div class=" mb-3">
+            <div class="text-success mb-4 text-center">
+                <h5 class=" mb-0 text-uppercase fw-bold">Message List</h5>
             </div>
-            <div class="card-body">
-            <div class="text-right mb-3">
-                <?= $this->Html->link('<i class="bi bi-envelope-plus"></i>&nbsp; New Message', ['controller' => 'messages', 'action' => 'new_message'], ['class' => 'btn btn-primary mb-2', 'escape' => false]) ?>
+            <div class="">
+            <div class="text-right mb-4">
+                <?= $this->Html->link('<i class="bi bi-envelope-plus"></i>&nbsp; New Message', ['controller' => 'messages', 'action' => 'new_message'], ['class' => 'btn fw-bold mb-2 text-danger', 'escape' => false]) ?>
             </div>
 
-                <div id="messages-container">
-                  
+            <div id="messages-container" style="height: 400px; overflow-y: auto;">
+                    <!-- Your messages content goes here -->
                 </div>
 
                 <div id="no-messages" class="text-center" style="display: none;">

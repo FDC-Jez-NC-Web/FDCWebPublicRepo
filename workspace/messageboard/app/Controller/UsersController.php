@@ -2,19 +2,50 @@
 App::uses('AppController', 'Controller');
 App::uses('AuthComponent', 'Controller/Component');
 
-
 class UsersController extends AppController {
 
     public $uses = array('Message', 'User');
     public $layout = 'users_layout';
+
+    // public function display() {
+	// 	$path = func_get_args();
+
+	// 	$count = count($path);
+	// 	if (!$count) {
+	// 		return $this->redirect('/');
+	// 	}
+	// 	if (in_array('..', $path, true) || in_array('.', $path, true)) {
+	// 		throw new ForbiddenException();
+	// 	}
+	// 	$page = $subpage = $title_for_layout = null;
+
+	// 	if (!empty($path[0])) {
+	// 		$page = $path[0];
+	// 	}
+	// 	if (!empty($path[1])) {
+	// 		$subpage = $path[1];
+	// 	}
+	// 	if (!empty($path[$count - 1])) {
+	// 		$title_for_layout = Inflector::humanize($path[$count - 1]);
+	// 	}
+	// 	$this->set(compact('page', 'subpage', 'title_for_layout'));
+
+	// 	try {
+	// 		$this->render(implode('/', $path));
+	// 	} catch (MissingViewException $e) {
+	// 		if (Configure::read('debug')) {
+	// 			throw $e;
+	// 		}
+	// 		throw new NotFoundException();
+	// 	}
+	// }
+
+
     public function dashboard()
     {
-       
         $this->set('title_for_layout', __('Dashboard'));
         $this->render('dashboard');
-
     }
-
 
     public function getAllMessages() {
 
@@ -30,11 +61,11 @@ class UsersController extends AppController {
                 WITH MessageDetails AS (
                     SELECT
                         sender.id AS sender_id,
-                        sender.name AS sender_name,
+                        sender.username AS sender_name,
                         sender.email AS sender_email,
                         sender.image AS sender_image,
                         receiver.id AS receiver_id,
-                        receiver.name AS receiver_name,
+                        receiver.username AS receiver_name,
                         receiver.email AS receiver_email,
                         receiver.image AS receiver_image,
                         m.message AS message_details,
@@ -79,9 +110,6 @@ class UsersController extends AppController {
    
         
 
-       
-
-    
         $response = array(
             'success' => true,
             'messages' =>  $messages,
@@ -97,11 +125,17 @@ class UsersController extends AppController {
         $this->Session->destroy();
         return $this->redirect(array('controller' => 'users', 'action' => 'login'));
     }
+
     public function login() {
+     
         $this->autoRender = false;
         if ($this->request->is('post')) { 
             $response = array();
             if ($this->Auth->login()) { 
+                
+                $this->User->id = $this->Auth->user('id');
+                $this->User->saveField('last_login_time', date('Y-m-d H:i:s'));
+
                 $response['success'] = true;
                 $response['message'] = 'Account login successfully!';
             } else {
@@ -115,10 +149,9 @@ class UsersController extends AppController {
             return;
         }
 
-        $this->set('title_for_layout', __('Login Form'));
+        $this->set('title_for_layout', __('Login'));
         $this->render("login"); 
     }
-
 
     public function profile() {
    
@@ -174,7 +207,6 @@ class UsersController extends AppController {
         $this->render("profile");
     }
     
-    
 
     private function _uploadFile($file, $uploadPath) {
         App::uses('Folder', 'Utility');
@@ -189,8 +221,6 @@ class UsersController extends AppController {
         return false;
     }
 
-
-    
     public function register() {
         $this->autoRender = false;
         if ($this->request->is('post')) {
@@ -213,9 +243,7 @@ class UsersController extends AppController {
             echo json_encode($response);
             return;
         }
-        
-
-        $this->set('title_for_layout', __('User Registration'));
+        $this->set('title_for_layout', __('Registration'));
         $this->render("register");
     }
 

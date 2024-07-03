@@ -58,5 +58,6 @@ class AppController extends Controller {
 
     public function beforeFilter() {
         $this->Auth->allow( 'register', 'thankyou','login');
+        $this->set('currentUser', $this->Auth->user());
     }
 }

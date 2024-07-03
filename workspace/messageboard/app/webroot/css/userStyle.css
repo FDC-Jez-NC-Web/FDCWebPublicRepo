@@ -1,0 +1,54 @@
+
+    .ui-datepicker {
+        font-size: 14px;
+    }
+    .ui-datepicker-header {
+        background-color: #007bff; 
+        color: white; 
+    }
+    .ui-datepicker-calendar td {
+        padding: 5px;
+    }
+    .ui-datepicker-calendar .ui-state-default {
+        background-color: #f0f0f0; 
+        border: 1px solid #ccc; 
+        color: #333; 
+    }
+    .ui-datepicker-calendar .ui-state-hover {
+        background-color: #007bff; 
+        color: white; 
+    }
+    .profile-picture {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .message-list {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .message-item {
+          
+            padding: 10px 0;
+        }
+        .message-item:last-child {
+            border-bottom: none;
+        }
+        .message-sender {
+            font-weight: bold;
+        }
+        .message-date {
+            color: #777;
+            font-size: 0.9em;
+        }
+        .message-content {
+            margin-top: 5px;
+        }
+        .message-actions {
+            float: right;
+        }

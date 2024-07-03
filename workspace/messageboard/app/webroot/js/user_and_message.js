@@ -1,25 +1,29 @@
 $(document).ready(function() {
 
+    var offset = 0; 
+    var limit = 10; 
+    var url = new URL(window.location.href);
+    var receiverId = url.searchParams.get('receiver_id');
+    var sender_id = url.searchParams.get('sender_id');
+    var senderOwnerId = url.searchParams.get('sender_owner_id');
+    var states = [];
+    
 
-        $('#birthdate').datepicker({
-            dateFormat: 'yy-mm-dd',
-            changeMonth: true,
-            changeYear: true,
-            maxDate: '0', // Restrict future dates
-            showButtonPanel: true, // Show today and clear buttons
-            
-        });
+    $('#show-more').show();
 
+    //datepicker 
+    $('#birthdate').datepicker({
+        dateFormat: 'yy-mm-dd',
+        changeMonth: true,
+        changeYear: true,
+        maxDate: '0', 
+        showButtonPanel: true, 
+    });
+
+    //profile form ajax request
     $('#profileForm').submit(function(event) {
         event.preventDefault();
-
-        // var email = $('#email').val();
-        // if (!isValidEmail(email)) {
-        //     displayError('Please enter a valid email address.');
-        //     return;
-        // }
-
-  
+    
         var fileInput = document.getElementById('image');
         var maxFileSize = 2 * 1024 * 1024; // 2MB in bytes
         if (fileInput.files.length > 0) {
@@ -73,13 +77,8 @@ $(document).ready(function() {
         }
     });
 
-  
-    function isValidEmail(email) {
-        var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return regex.test(email);
-    }
 
-
+    //error display function
     function displayError(message) {
         $('#validation-messages').html('<div class="alert alert-danger">' + message + '</div>');
 
@@ -92,95 +91,27 @@ $(document).ready(function() {
     }
 
   
-    //this is register ajax form submit
-    $('#registerForm').submit(function(event) {
-        event.preventDefault();
-        var formData = $(this).serialize();
-        var actionUrl = $(this).attr('action'); 
-        ajax_request('POST', actionUrl, formData, 'registerForm');
-    });
-
-
-    //this is login ajax form submit
-    $('#loginForm').submit(function(event) {
-        event.preventDefault(); 
-        var formData = $(this).serialize();
-        var actionUrl = $(this).attr('action'); 
-        ajax_request('POST', actionUrl, formData, 'loginForm');
-    
-    })
-
-    function ajax_request(type, url, payload, id){
-        $.ajax({
-            type: type,
-            url: url, 
-            dataType: 'json',
-            data: payload,
-            success: function(response) {
-
-                if (response.success) {
-                    alert(response.message);
-
-                    if(id === "registerForm"){
-                        window.location.href = '/users/thankyou';
-                        return;
-                    }
-
-                    window.location.href = "/users/dashboard";
-
-                } else {
-
-
-                    var messages = '<div id="validation-alert" class="alert alert-danger"><ul style="list-style-type: none;">';
-                    if (id === "registerForm") {
-                        $.each(response.message, function(index, error) {
-                            messages += '<li>' + error + '</li>';
-                        });
-                    } else {
-                        messages += '<li>' + response.message + '</li>';
-                    }
-                    messages += '</ul></div>';
-                    
-                    $('#validation-messages').html(messages);
-                    
-                    setTimeout(() => {
-                        $('#validation-alert').fadeOut('slow', function() {
-                            $(this).remove();
-                        });
-                    }, 3000);
-                    
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error('Error:', error); 
-                alert('An error occurred. Please try again.'); 
-            }
-        });
-    }
-
-    var states = [];
-    
+    //select jquery plugin options
     function formatState(state) {
         if (!state.id) {
             return state.text;
         }
-       
         var $state = $(
             '<span><img class="img-flag rounded-circle" /> ' + state.text + '</span>'
         );
-    
-  
         return $state;
     }
     
     $(document).ready(function() {
         $(".js-example-templating").select2({
-            data: states, // Use the 'states' array as data source
-            templateSelection: formatState, // Apply custom template for selected item
-            templateResult: formatState // Apply custom template for dropdown options
+            data: states, 
+            templateSelection: formatState, 
+            templateResult: formatState 
         });
     });
 
+
+    //send message form
     $('#sendMessageForm').submit(function(event) {
         event.preventDefault(); 
 
@@ -192,10 +123,9 @@ $(document).ready(function() {
             data: formData,
             dataType: 'json', // Expect JSON response
             success: function(response) {
-                // Handle successful response (optional)
-                console.log('Message sent successfully');
                 alert('Message sent successfully');
-                $('#sendMessageForm')[0].reset(); // Reset form fields
+                $('#sendMessageForm')[0].reset(); 
+                window.location.href = "/users/dashboard"
              
             },
             error: function(xhr, status, error) {
@@ -206,6 +136,8 @@ $(document).ready(function() {
         });
     });
    
+
+    //reply message form
     $('#replyMessageForm').on('submit', function(e) {
         e.preventDefault(); 
   
@@ -230,18 +162,8 @@ $(document).ready(function() {
     });
 
 
-
-    var offset = 0; 
-    var limit = 10; 
-    var url = new URL(window.location.href);
-    var receiverId = url.searchParams.get('receiver_id');
-    var sender_id = url.searchParams.get('sender_id');
-    var senderOwnerId = url.searchParams.get('sender_owner_id');
-
-    $('#show-more').show();
-
+    //load all the list of messages
     function loadMoreMessages() {
-
         $.ajax({
             url: "/users/getAllMessages",
             type: 'GET',
@@ -252,9 +174,6 @@ $(document).ready(function() {
             success: function(response) {
                  const {success, messages, user_id } = JSON.parse(response);
 
-                
-
-              
                 if (success) {
                         
                     $('#messages-container').empty();
@@ -281,23 +200,23 @@ $(document).ready(function() {
 
                         if (isCurrentUserSender) {
                             messageHtml = `
-                                <div class="message-item mb-3">
+                                <div class="message-item mb-3 border-bottom shadow-sm px-4 py-4">
                                     <div class="row">
                                         <div class="col-md-2">
                                             <img src="${senderImageUrl}" alt="${message.data.sender_name}" class="img-fluid rounded-circle">
                                         </div>
                                         <div class="col-md-8 text-star ">
                                             <div class="d-flex gap-2">
-                                                ${isCurrentUserSender ? 'Message to: ' : 'Message from: '}
-                                                <div class="message-sender">${message.data.receiver_name} (${message.data.receiver_email})</div>
+                                                To:
+                                                <div class="message-sender fw-bold ">${message.data.receiver_name} (${message.data.receiver_email})</div>
                                             </div>
-                                            <div class="message-content mb-2 text-danger">*${message.data.message_details}</div>
-                                            <div class="message-date" style="font-size:10px; margin-top:25px;">${moment(message.data.created_at).calendar()}</div>
+                                            <div class="message-content mb-2 text-danger mt-2">*${message.data.message_details}</div>
+                                            <div class="message-date" style="font-size:10px; margin-top:10px;">${moment(message.data.created_at).calendar()}</div>
                                         </div>
                                         <div class="col-md-2 text-end" style="padding-right:30px;">
                                             <div class="message-actions  d-flex flex-column gap-2">
-                                                <a href="/messages/message_details?receiver_id=${message.data.receiver_id}&sender_id=${message.data.sender_id}" class="btn btn-sm btn-primary ml-2 w-100"><i class="fas fa-eye"></i> <i class="bi bi-eye-fill"></i></a>
-                                                <button class="btn btn-sm btn-danger delete-all-message w-100" data-receiver-id= "${message.data.receiver_id}" data-receiver-name="${message.data.receiver_name}">
+                                                <a href="/messages/message_details?receiver_id=${message.data.receiver_id}&sender_id=${message.data.sender_id}" class="btn btn-primary ml-2 w-100"><i class="fas fa-eye"></i> </a>
+                                                <button class="btn  btn-danger delete-all-message w-100" data-receiver-id= "${message.data.receiver_id}" data-receiver-name="${message.data.receiver_name}">
                                                     <i class="bi bi-trash3-fill"></i>
                                                 </button>
                                             </div>
@@ -307,19 +226,19 @@ $(document).ready(function() {
                             `;
                         } else {
                             messageHtml = `
-                                <div class="message-item mb-3">
+                                <div class="message-item mb-3 border-bottom shadow-sm px-4 pb-4">
                                     <div class="row">
                                         <div class="col-md-2" style="padding-right:60px;">
                                             <div class="message-actions d-flex flex-column gap-2  ">
-                                                 <button class="btn btn-sm btn-danger delete-all-message w-100" data-receiver-id= "${message.data.receiver_id}" data-owner-id="${message.data.sender_id}" data-receiver-name="${message.data.receiver_name}">
+                                                 <button class="btn  btn-danger delete-all-message w-100" data-receiver-id= "${message.data.receiver_id}" data-owner-id="${message.data.sender_id}" data-receiver-name="${message.data.receiver_name}">
                                                     <i class="bi bi-trash3-fill"></i>
                                                 </button>
-                                                <a href="/messages/message_details?receiver_id=${message.data.receiver_id}&sender_owner_id=${message.data.sender_id}" class="btn btn-sm btn-primary ml-2 w-100"><i class="bi bi-eye-fill"></i></a>
+                                                <a href="/messages/message_details?receiver_id=${message.data.receiver_id}&sender_owner_id=${message.data.sender_id}" class="btn btn-primary ml-2 w-100"><i class="fas fa-eye"></i></a>
                                             </div>
                                         </div>
                                         <div class="col-md-8 text-end ">
                                             <div class="d-flex gap-2 justify-content-end">
-                                                ${isCurrentUserSender ? 'Message to: ' : 'Message from: '}
+                                                From:
                                                 <div class="message-sender">${message.data.sender_name} (${message.data.sender_email})</div>
                                             </div>
                                             <div class="message-content text-danger">*${message.data.message_details}</div>
@@ -355,7 +274,7 @@ $(document).ready(function() {
         loadAllReplyMessages();
     });
 
-
+   //delete all message
     $(document).on('click', '.delete-all-message', function() {
        
         var receiver_id = $(this).data('receiver-id');
@@ -376,7 +295,7 @@ $(document).ready(function() {
     });
 
  
-
+    //delete specific reply message
     $(document).on('click', '.delete-message', function() {
        
         var messageId = $(this).data('message-id');
@@ -412,7 +331,7 @@ $(document).ready(function() {
             type: 'POST',
             success: function(response) {
                 alert('All messages deleted successfully.');
-                loadMoreMessages();
+                window.location.reload();
             },
             error: function() {
                 alert('Error: Unable to delete all messages.');
@@ -421,8 +340,9 @@ $(document).ready(function() {
         
     }
 
-
+   //load all reply messages
     function loadAllReplyMessages(){
+
 
         $.ajax({
             url: !sender_id ? `/messages/getAll_reply_message/${receiverId}?sender_owner_id=${senderOwnerId}` : `/messages/getAll_reply_message/${receiverId}?sender_id=${sender_id}`,
@@ -478,7 +398,8 @@ $(document).ready(function() {
                                     </div>
                             
                                     <div class="col-md-2">
-                                        ${message.Sender.sender_id === user_id || message.Message.score == 1 ? `<button type="button" class="btn btn-sm btn-danger delete-message" data-message-id="${message.Message.id}"><i class="fas fa-trash"></i> Delete</button>` : ''}
+                                        ${!senderOwnerId  && message.Message.score === 0 ? `<button type="button" class="btn btn-sm btn-danger delete-message" data-message-id="${message.Message.id}"><i class="fas fa-trash"></i> Delete</button>`:""}
+                                          ${ senderOwnerId && message.Message.score === 1 ? `<button type="button" class="btn btn-sm btn-danger delete-message" data-message-id="${message.Message.id}"><i class="fas fa-trash"></i> Delete</button>`:""}
                                     </div>
                                 </div>
                             </div>
@@ -493,6 +414,8 @@ $(document).ready(function() {
 
     }
 
+
+    
     loadAllReplyMessages();
     loadMoreMessages();
 

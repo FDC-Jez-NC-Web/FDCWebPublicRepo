@@ -4,6 +4,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get install -y libpq-dev libzip-dev unzip openssl libmcrypt-dev libmemcached-dev locales \
     && rm -rf /var/lib/apt/lists/*
 
+
 RUN docker-php-ext-install pdo_mysql pdo_pgsql zip \
     && pecl install apcu redis memcached mcrypt xdebug \
     && docker-php-ext-enable redis memcached mcrypt \

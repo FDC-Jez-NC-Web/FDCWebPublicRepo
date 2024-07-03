@@ -1,8 +1,8 @@
-<div class="container mt-2 mb-4">
+<div class="mb-4 w-100" style="margin-top:200px;">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">User Profile Form</div>
+                <div class="card-header bg-success fw-bold text-white text-uppercase">Edit profile form</div>
                 <div class="card-body">
                     <div id="validation-messages">
                         <?php
@@ -19,14 +19,14 @@
                     <!-- Display Existing Image -->
                     <?php if (!empty($user['User']['image'])): ?>
                         <div id="existingImageSection" class="text-center mb-3">
-                            <img id="existingImage" src="/img/uploads/<?php echo $user['User']['image']; ?>" style=" max-width: 200px; height: auto; border-radius:10px;" alt="User Image">
+                            <img id="existingImage" src="/img/uploads/<?php echo $user['User']['image']; ?>" style=" max-width: 100px; height: auto; border-radius:10px;" alt="User Image">
                         </div>
                     <?php endif; ?>
 
                
                     <!-- Image Preview (Hidden by Default) -->
-                    <div class="form-group">
-                        <img id="image-preview" src="#" alt="Image Preview" style="display: none; max-width: 100%; height: auto;"/>
+                    <div class="form-group mb-2 d-flex justify-content-center ">
+                        <img id="image-preview"  src="#" alt="Image Preview" style="display: none; max-width: 150px; height: auto;"/>
                     </div>
 
                     <!-- User Profile Form -->
@@ -101,13 +101,13 @@
 
                     <div class="d-flex justify-content-between">
                         <?php
-                            echo $this->Form->submit('Edit Profile', array('class' => 'btn btn-primary mt-3'));
+                            echo $this->Form->submit('SUBMIT', array('class' => 'btn btn-success mt-3'));
                             echo $this->Form->end();
                         ?>
 
                 
                         <?php
-                            echo $this->Html->link('Back to Dashboard', array('controller' => 'users', 'action' => 'dashboard'), array('class' => 'btn btn-secondary mt-3'));
+                            echo $this->Html->link('Back to Dashboard', array('controller' => 'users', 'action' => 'dashboard'), array('class' => 'btn btn-danger mt-3'));
                         ?>
                     </div>
                

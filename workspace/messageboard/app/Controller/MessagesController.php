@@ -1,4 +1,7 @@
 <?php
+
+use PhpMyAdmin\Config\Settings\Console;
+
 App::uses('AppController', 'Controller');
 /**
  * Messages Controller
@@ -27,23 +30,24 @@ class MessagesController extends AppController {
 		$query = "
             SELECT *
             FROM users
-            WHERE users.id != 107 AND users.id NOT IN (
+            WHERE users.id != '{$this->Auth->user('id')}' AND users.id NOT IN (
                 SELECT usr.id
                 FROM users AS usr
                 LEFT JOIN messages AS msg ON usr.id = msg.message_receiver_id
-                WHERE msg.message_owner_id = 107
+                WHERE msg.message_owner_id = '{$this->Auth->user('id')}'
             )
             ORDER BY users.username DESC;
         ";
 
+
         $usersData = $this->User->query($query);
         $users = array();
 
-   
         foreach ($usersData as $user) {
             $users[$user['users']['id']] = $user['users']['username'];
         }
 
+   
  
 		$this->set(compact('user', 'users'));
 		$this->set('title_for_layout', __('Add New Message'));
@@ -62,12 +66,13 @@ class MessagesController extends AppController {
             $recipientId = $data['Message']['recipientId'];
             $messageContent = $data['Message']['messageContent'];
 
-            // Prepare data to save
+       
             $message = array(
                 'Message' => array(
-                    'message_owner_id' => $this->Auth->user('id'), // Assuming you're storing the current user ID as the message owner
+                    'message_owner_id' => $this->Auth->user('id'), 
                     'message_receiver_id' => $recipientId,
                     'message' => $messageContent,
+                    'created_at' => date('Y-m-d H:i:s'),
                 )
             );
 
@@ -159,6 +164,7 @@ class MessagesController extends AppController {
                         'message_receiver_id' => $recipientId,
                         'message' => $message,
                         'score' => 0,
+                        'created_at' => date('Y-m-d H:i:s'),
                     )
                 );
 
@@ -170,11 +176,12 @@ class MessagesController extends AppController {
                         'message_receiver_id' => $recipientId,
                         'message' => $message,
                         'score' => 1,
+                        'created_at' => date('Y-m-d H:i:s'),
                       
                     )
                 );
             }
-        
+           
             if ($this->Message->save($message)) {
                 $response = array(
                     'success' => true,
@@ -214,16 +221,16 @@ class MessagesController extends AppController {
                 );
             }
     
-            // Return JSON response
+           
             echo json_encode($response);
         } else {
-            // Handle non-AJAX requests or missing data
+           
             $response = array(
                 'success' => false,
                 'message' => 'Invalid request.'
             );
     
-            // Return JSON response
+    
             echo json_encode($response);
         }
 
@@ -257,7 +264,7 @@ class MessagesController extends AppController {
 
         $conditions = array('Receiver.id' => $receiver_id);
 
-        // Add sender_id condition if provided
+       
         if ($sender_id) {
             $conditions['Sender.id'] = $sender_id;
         }
@@ -303,7 +310,8 @@ class MessagesController extends AppController {
                     )
                 )
             ));
-    
+
+  
             $response = array(
                 'success' => true,
                 'messages' =>  $messages,

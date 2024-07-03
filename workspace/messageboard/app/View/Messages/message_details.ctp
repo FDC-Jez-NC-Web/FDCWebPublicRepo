@@ -1,10 +1,10 @@
 
 
-<div class="container mt-5 mb-5">
+<div style="margin-top: 250px;" class=" container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header bg-secondary text-white">
+                <div class="card-header bg-success text-white">
                     <h5 class="card-title mb-0 text-uppercase">Message Details</h5>
                 </div>
                 <div class="card-body">
@@ -12,13 +12,13 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="from">From:</label>
-                            <input type="text" class="form-control" id="from" value="<?= $message_sender_and_receiver['sender']['sender_name']?> (<?= $message_sender_and_receiver['sender']['sender_email']?>)" readonly disabled>
+                            <input type="text" class="form-control" id="from" value="<?= $message_sender_and_receiver['sender']['sender_name']?> " readonly disabled>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="to">To:</label>
-                            <input type="text" class="form-control" id="to" value="<?= $message_sender_and_receiver['receiver']['receiver_name']?> (<?= $message_sender_and_receiver['receiver']['receiver_email']?>)" readonly disabled>
+                            <input type="text" class="form-control" id="to" value="<?= $message_sender_and_receiver['receiver']['receiver_name']?> " readonly disabled>
                         </div>
                     </div>
                 </div>
@@ -47,13 +47,9 @@
                         <p>No messages found.</p>
                 </div>
 
-                <div class="message-list mt-4" id="message-reply-container">
-                  
-                    <!-- Show more button -->
-                  
+                <div class="message-list mt-4" id="message-reply-container" style="height: 200px; overflow-y: auto;">
                 </div>
                
-
                 <div class="d-flex justify-content-between">
                     <div class="text-center ">
                             <button id="show-more-replies" class="btn btn-success">Show More</button>

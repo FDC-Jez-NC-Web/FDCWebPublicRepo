@@ -1,7 +1,7 @@
-<div class="container mt-5">
+<div class=" mt-5" style="width:700px;">
     <div class="card">
-        <div class="card-header bg-primary text-white text-uppercase font-weight-bold">User Profile</div>
-        <div class="card-body">
+        <div class="card-header bg-success text-white text-uppercase fw-bold">User Profile</div>
+        <div class="card-body d-flex flex-column ">
             <?php
                 // Build avatar URL
                 if (!empty($user['User']['image'])) {
@@ -12,33 +12,34 @@
             ?>
             <img class="profile-picture mx-auto d-block mb-3" src="<?php echo htmlspecialchars($avatarUrl); ?>" alt="Profile Picture">
             
-            <!-- Bootstrap-styled details items -->
-            <div class="row details-item justify-content-center">
-                <div class="col-sm-3 font-weight-bold text-right details-label">Name:</div>
-                <div class="col-sm-9"><?php echo htmlspecialchars($user['User']['name']); ?></div>
-            </div>
-            <div class="row details-item justify-content-center">
-                <div class="col-sm-3 font-weight-bold text-right details-label">Email:</div>
-                <div class="col-sm-9"><?php echo htmlspecialchars($user['User']['email']); ?></div>
-            </div>
-            <div class="row details-item justify-content-center">
-                <div class="col-sm-3 font-weight-bold text-right details-label">Birthdate:</div>
-                <div class="col-sm-9"><?php echo htmlspecialchars($user['User']['birthdate']); ?></div>
-            </div>
-            <div class="row details-item justify-content-center">
-                <div class="col-sm-3 font-weight-bold text-right details-label">Gender:</div>
-                <div class="col-sm-9"><?php echo htmlspecialchars($user['User']['gender']); ?></div>
-            </div>
-            <div class="row details-item justify-content-center">
-                <div class="col-sm-3 font-weight-bold text-right details-label">Hobby:</div>
-                <div class="col-sm-9"><?php echo htmlspecialchars($user['User']['hobby']); ?></div>
+            <div class="card p-4 mt-2 shadow">
+                <div class=" d-flex">
+                    <div class="col-sm-2 opacity-75">Name:</div>
+                    <div class="col-sm-4 fw-bold font-italic"><?php echo htmlspecialchars($user['User']['name']); ?></div>
+                </div>
+                <div class="d-flex w-100">
+                    <div class="col-sm-2 opacity-75">Email:</div>
+                    <div class="col-sm-4 fw-bold font-italic"><?php echo htmlspecialchars($user['User']['email']); ?></div>
+                </div>
+                <div class="d-flex">
+                    <div class="col-sm-2 opacity-75">Birthdate:</div>
+                    <div class="col-sm-4 fw-bold font-italic"><?php echo htmlspecialchars($user['User']['birthdate']) ?></div>
+                </div>
+                <div class="d-flex">
+                    <div class="col-sm-2 opacity-75">Gender:</div>
+                    <div class="col-sm-4 fw-bold font-italic"><?php echo htmlspecialchars($user['User']['gender']) ?></div>
+                </div>
+                <div class="d-flex">
+                    <div class="col-sm-2 opacity-75">Hobby:</div>
+                    <div class="col-sm-4 fw-bold font-italic"><?php echo htmlspecialchars($user['User']['hobby'])?></div>
+                </div>
             </div>
 
             <div class="d-flex justify-content-between">
                 <!-- Edit Profile Button -->
                 <div class="d-flex justify-content-end mt-4">
                     <?php
-                        echo $this->Html->link('Edit Profile', array('controller' => 'Users', 'action' => 'profile'), array('class' => 'btn btn-success'));
+                        echo $this->Html->link('Edit Profile', array('controller' => 'Users', 'action' => 'profile'), array('class' => 'btn btn-success text-uppercase'));
                     ?>
                 </div>
     
